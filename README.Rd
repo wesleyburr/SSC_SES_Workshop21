@@ -1,6 +1,3 @@
-# Teaching Statistics in Psychology Conference
+# Statistical Society of Canada 2021 Annual Meeting - Statistics Education Section Workshop
 
-https://sites.google.com/view/teachingstatistics2021/home
-
-Workshop/Talk on Day 2 (May 6) - Teaching Reproducibility in Intro Stats
-
+Workshop Module for June 6 - Using WeBWorK for Grading in Statistics
