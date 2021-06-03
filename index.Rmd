@@ -1,6 +1,6 @@
 ---
 title: "WeBWorK for Grading in Statistics"
-author: 'Bruce Dunham-- <a href="https://www.stat.ubc.ca/">UBC</a> <br> Wesley S. Burr-- <a href="http://www.trentu.ca/math/">Trent University</a>'
+author: 'Bruce Dunham-- <a href="https://www.stat.ubc.ca/">UBC</a> <br> Wesley S. Burr-- <a href="http://www.trentu.ca/math/">Trent University</a> <br>&nbsp; <br> &nbsp; <br> Slides: https://wesleyburr.github.io/SSC_SES_Workshop21/'
 date: 2021-06-06, 13:00
 output:
   xaringan::moon_reader:
