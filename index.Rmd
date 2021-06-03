@@ -1,0 +1,312 @@
+---
+title: "WeBWorK for Grading in Statistics"
+author: 'Bruce Dunham-- <a href="https://www.stat.ubc.ca/">UBC</a> <br> Wesley S. Burr-- <a href="http://www.trentu.ca/math/">Trent University</a>'
+date: 2021-06-06, 13:00
+output:
+  xaringan::moon_reader:
+    chakra: remark-latest.min.js
+    lib_dir: libs
+    nature:
+      highlightStyle: tomorrow-night-bright
+      highlightLines: true
+      highlightLanguage: r
+    includes:
+      in_header: header.html
+    countIncrementalSlides: false
+    css: xaringan-themer.css
+    transition: fade
+---
+
+```{r include=FALSE}
+library(ggplot2)
+filter <- dplyr::filter
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, fig.width=10.5, fig.height=4, 
+  comment=NA, rows.print=16)
+#theme_set(theme_gray(base_size = 24))
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval = FALSE}
+library(xaringanthemer)
+style_mono_accent(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+# Getting to Know WeBworK
+
+---
+
+class: inverse
+
+## Why Use Online Homework Systems?
+
+* You want your students engaged in *meaningful* effort every week.
+
+--
+
+* Help students balance consuming vs constructing.
+
+--
+
+* Formative assessmment counts for grades, with timely feedback.
+
+--
+
+* Randomisation can reduce cheating.
+
+--
+
+* (Most) students appear to like it.
+
+---
+
+class: inverse
+
+## Various open online homework systems, including ...
+
+* **Numbas**: http://www.numbas.org.uk/
+
+--
+
+* **IMathAS**: http://www.imathas.com/
+
+--
+
+* **PrarieLearn**: http://www.prairielearn.org/
+
+--
+
+* **WeBWorK**: http//www.webwork.maa.org/
+
+---
+
+class: inverse
+
+## WeBWorK Background
+
+* Developed with support of the MAA in the mid-1990s, Perl-based
+
+--
+
+* Currently used by around 1400 institutions globally (minimum)
+
+--
+
+* Open Problem Library includes over 35,000 problems (although many are in introductory mathematics, and not that useful for us)
+
+--
+
+* the **WeBWorKiR** project links R in as a service from within the problem environment: [link](https://wiki.ubc.ca/Documentation:WeBWorK)
+
+--
+
+* a new paid service, [Rederly](http://rederly.com), can host, and provides significant improvements to the front-end interface and course administration aspects (for a fee!)
+
+--
+
+* did we mention WeBWorK is functionally free? (just need a VM or server to run it on)
+
+---
+
+# WeBWorK: Advantages
+
+---
+
+class: inverse
+
+## Technical Advantages
+
+* scales well in complexity (no reason it can't be used for computational problems at all grade levels of undergrad and even graduate degrees)
+
+--
+
+* the Open Problem Library (OPL) is a great starting resource
+
+--
+
+* the integration with R means you can basically ask R problems, together with other forms of problem like multiple choice, and still auto-grade!
+
+--
+
+* the random data generation abilities are great
+
+--
+
+* Learning Tools Interoperability (LTI) means near-seamless integration with your LMS (Blackboard, Canvas, WebCT all supported)
+
+--
+
+* easily generate random, yet high quality, graphics as part of problems
+
+--
+
+* random generation extends to creation of **files**, which can then be made available for individualized download
+
+--
+
+* administrative system allows for "Act as Student" - very easy to help students with homework remotely, or as part of team-teaching - reduces load on office hours
+
+
+---
+
+class: inverse
+
+## Pedagogical Advantages
+
+* steal from your colleagues who teach similarly (common problems, yet hard to cheat off of because of the random generation) - we both have created large banks of problems, happy to share (not all on the OPL!)
+
+--
+
+* force integration of your chosen language (R?) into homework problems at every level
+
+--
+
+* kill probability/quantile lookup tables with fire and salt, if you haven't already (by forcing integration, it's easy to teach **pnorm()** and equivalent functions)
+
+--
+
+* mastery-based learning with multiple attempts possible: about the outcome, not the individual attempt
+
+--
+
+* can be used for everything from assignment to quiz to exams - comfort, familiarity, and ease of re-use of materials
+
+--
+
+* the Just-in-Time grading system can help force pathways through work, helping students structure their test writing
+
+$\;$
+
+
+---
+
+
+# Disadvantages
+
+---
+
+class: inverse
+
+## Disadvantages
+
+* clunky looks (1996 called, they want their UI back!)
+
+--
+
+* problem creation does use Perl: you can get by with basic skills in other languages, and lean heavily on R, but it is a bit of a hindrance
+
+--
+
+* some ideosyncratic interface issues (e.g., different notation for scientific notation than R uses)
+
+--
+
+* without care, students can be frustrated by what seems like arbitrary numerical precision problems (e.g., student puts in 1.80 as answer, is marked wrong, with correct answer being 1.7999, because the system checks accuracy at too fine a level)
+
+--
+
+* testing environment is on the internet, as a web page, which means timeout issues can occur - JIT fixes this, but forces a structure you may not want
+
+---
+
+# Installation
+
+---
+
+class: inverse
+
+## Installation & Setup
+
+* installation guide is mostly followable, if you have *nix experience
+
+--
+
+* really want to use Ubuntu - hard to get working on other Linux distributions
+
+--
+
+* setting up LTI requires IT support
+
+--
+
+* authentication is a real concern: you want LTI because it offsets all authentication issues to the LMS, which means IT, which means **not you**
+
+--
+
+* definitely easiest if you have IT buy-in for support
+
+--
+
+* **Rederly** is a recent emergence onto the scene, and can take care of all of this, plus some, but can be expensive (over 350 USD for a single course; much more for a university-negotiated discounted group rate)
+
+--
+
+* forums are a great resource: really active group of developers (including Danny Glin from UCalgary) who answer questions quickly and are very helpful
+
+---
+
+class: inverse
+
+## Hardware Demands
+
+* initial Trent installation was on a VM with 2 vCPUs and 2GB RAM allocation
+
+--
+
+* regular crashes, unable to sustain quiz writing, was very unsuccessful
+
+--
+
+* ramped VM up to 4 vCPUs, 8GB RAM, tweaked Apache settings: much more successful
+
+--
+
+* convinced Dean of Science to fund a dedicated server (HP DL360 - 2 Xeon-Si 2.2GHz - 20 cores, 32GB RAM), and have had nearly seamless, error-free running for over 2 years now, running both WeBWorK and RStudio Server Professional (for smaller classes) off the same box, Ubuntu 18.04 LTS
+
+
+---
+
+
+# Demonstrations and Hands-On
+
+---
+
+class: inverse
+
+## Personalized Logins
+
+We've setup a dummy course at:
+
+https://math.trentu.ca/webwork2/2021SU-SSC2021/
+
+Each of the registered attendees can login to this 'course' using their personal name,
+as first name initial, then last name (e.g., John Smith becomes jsmith). The password is common
+for all, and shared in Zoom chat.
+
+Go give it a try!
+
+* Bruce is going to kick us off with a demonstration of some problems from his courses
+* then Wesley will return to discuss some of the ways you interact with the system, and use the OPL
+* if we have time, we'll edit a problem together in real-time
+
+---
+
+layout: false
+class: middle, inverse
+
+<center>
+<a href="http://www.trentu.ca/math/"><img src="figure/trent.png" style="width: 200px;"/></a>
+&emsp;&emsp;
+<a href="https://www.stat.ubc.ca/"><img src="figure/ubc.png" style="width: 100px;"/></a>
+&emsp;&emsp;
+<a href="https://creativecommons.org/licenses/by/4.0/"><img src="figure/cc.png" style="width: 200px;"/></a>
+</center>
+
+<br/>
+
+- Contact us: [Email (Wesley)](mailto:wesleyburr@trentu.ca) or [Email (Bruce)](mailto:b.dunham@stat.ubc.ca)
+- Slides created via the R package [xaringan](https://github.com/yihui/xaringan) by Yihui Xie
+<br/>
