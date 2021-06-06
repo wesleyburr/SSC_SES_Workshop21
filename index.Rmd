@@ -51,7 +51,7 @@ class: inverse
 
 --
 
-* Formative assessmment counts for grades, with timely feedback.
+* Formative assessment counts for grades, with timely feedback.
 
 --
 
@@ -75,7 +75,7 @@ class: inverse
 
 --
 
-* **PrarieLearn**: http://www.prairielearn.org/
+* **PrairieLearn**: http://www.prairielearn.org/
 
 --
 
